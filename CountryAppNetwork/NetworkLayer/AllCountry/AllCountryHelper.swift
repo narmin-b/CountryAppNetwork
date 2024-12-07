@@ -26,6 +26,5 @@ enum AllCountryHelper {
             case .all:
                 return CoreAPIHelper.instance.makeURL(path: basePath + self.endpoint)
         }
-        
     }
 }

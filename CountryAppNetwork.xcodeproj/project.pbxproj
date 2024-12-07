@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		119EB7CD2D044E63007833E2 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 119EB7CC2D044E63007833E2 /* SDWebImage */; };
+		119EB7D22D045061007833E2 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 119EB7D12D045061007833E2 /* SDWebImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				119EB7D22D045061007833E2 /* SDWebImage in Frameworks */,
 				119EB7CD2D044E63007833E2 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,6 +86,7 @@
 			name = CountryAppNetwork;
 			packageProductDependencies = (
 				119EB7CC2D044E63007833E2 /* SDWebImage */,
+				119EB7D12D045061007833E2 /* SDWebImage */,
 			);
 			productName = CountryAppNetwork;
 			productReference = 119EB7932D044D84007833E2 /* CountryAppNetwork.app */;
@@ -114,7 +117,7 @@
 			mainGroup = 119EB78A2D044D84007833E2;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				119EB7CB2D044E63007833E2 /* XCLocalSwiftPackageReference "../../Downloads/SDWebImage-master" */,
+				119EB7D02D045061007833E2 /* XCLocalSwiftPackageReference "../../Downloads/SDWebImage-master" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 119EB7942D044D84007833E2 /* Products */;
@@ -354,7 +357,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		119EB7CB2D044E63007833E2 /* XCLocalSwiftPackageReference "../../Downloads/SDWebImage-master" */ = {
+		119EB7D02D045061007833E2 /* XCLocalSwiftPackageReference "../../Downloads/SDWebImage-master" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "../../Downloads/SDWebImage-master";
 		};
@@ -362,6 +365,10 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		119EB7CC2D044E63007833E2 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SDWebImage;
+		};
+		119EB7D12D045061007833E2 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SDWebImage;
 		};

@@ -7,7 +7,15 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: BaseViewController {
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CountryTableViewCell")
+        tableView.dataSource = self
+        tableView.delegate = self
+        return tableView
+    }()
+    
     private var viewModel: MainViewModel
 
     required init?(coder: NSCoder) {
@@ -21,6 +29,25 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureViewModel()
+    }
+    
+    override func configureView() {
+        view.addSubViews(tableView)
+    }
+    
+    override func configureTargets() {
+        
+    }
+    
+    override func configureConstraint() {
+        tableView.anchor(
+            top: view.safeAreaLayoutGuide.topAnchor,
+            leading: view.leadingAnchor,
+            bottom: view.safeAreaLayoutGuide.bottomAnchor,
+            trailing: view.trailingAnchor,
+            padding: .init(bottom: 60)
+            )
     }
     
     fileprivate func configureViewModel() {
@@ -39,4 +66,14 @@ class MainViewController: UIViewController {
         }
     }
     
+}
+
+extension MainViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        <#code#>
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
 }
