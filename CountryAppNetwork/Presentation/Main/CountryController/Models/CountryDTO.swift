@@ -152,3 +152,13 @@ enum Status: String, Codable {
 }
 
 typealias CountryList = [CountryDTO]
+
+extension CountryDTO: TitleImageProtocol {
+    var imageString: String {
+        flags.png
+    }
+    
+    var titleString: String {
+        name.official
+    }
+}

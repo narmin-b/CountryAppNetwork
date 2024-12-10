@@ -16,7 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let newWindow = UIWindow(windowScene: windowScene)
-        let controller = MainViewController(viewModel: .init())
+//        let controller = MainViewController(viewModel: .init())
+        let controller = MainTabBarController()
         let navController = UINavigationController(rootViewController: controller)
         newWindow.rootViewController = navController
         window = newWindow

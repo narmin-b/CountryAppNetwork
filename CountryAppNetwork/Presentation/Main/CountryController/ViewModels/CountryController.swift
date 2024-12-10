@@ -8,6 +8,13 @@
 import UIKit
 
 class MainViewController: BaseViewController {
+    private lazy var loadingView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .large)
+        view.color = .gray
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CountryTableViewCell")
@@ -17,6 +24,7 @@ class MainViewController: BaseViewController {
     }()
     
     private var viewModel: MainViewModel
+    private var list: CountryList?
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -30,10 +38,11 @@ class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
+        viewModel.getAllCountryList()
     }
     
     override func configureView() {
-        view.addSubViews(tableView)
+        view.addSubViews(loadingView, tableView)
     }
     
     override func configureTargets() {
@@ -41,27 +50,25 @@ class MainViewController: BaseViewController {
     }
     
     override func configureConstraint() {
-        tableView.anchor(
-            top: view.safeAreaLayoutGuide.topAnchor,
-            leading: view.leadingAnchor,
-            bottom: view.safeAreaLayoutGuide.bottomAnchor,
-            trailing: view.trailingAnchor,
-            padding: .init(bottom: 60)
-            )
+        loadingView.fillSuperview()
+        tableView.fillSuperview(padding: .init(all: 24))
     }
     
     fileprivate func configureViewModel() {
         viewModel.listener = { [weak self] state in
             guard let self = self else {return}
             switch state {
-                case .loading:
-                    print("loading")
+            case .loading:
+                loadingView.startAnimating()
             case .loaded:
-                print("loaded")
+                DispatchQueue.main.async {
+                    self.loadingView.stopAnimating()
+                }
+                
             case .success:
                 print("success")
             case .error(message: let message):
-                print("error: \(message)")
+                showMessage(title: message)
             }
         }
     }
@@ -70,10 +77,13 @@ class MainViewController: BaseViewController {
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        viewModel.getItems()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = tableView.dequeueReusableCell(for: CountryTableViewCell.self, for: indexPath)
+        guard let item = viewModel.getProtocol(index: indexPath.row) else {return UITableViewCell()}
+        cell.configureCell(model: item)
+        return cell
     }
 }

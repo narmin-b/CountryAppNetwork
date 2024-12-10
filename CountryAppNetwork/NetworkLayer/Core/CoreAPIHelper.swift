@@ -23,8 +23,4 @@ final class CoreAPIHelper {
         let urlString = baseURL + path
         return URL(string:urlString)
     }
-    
-    func makeHeader() -> [String: String] {
-        return ["Authoration": "Barear Token"]
-    }
 }

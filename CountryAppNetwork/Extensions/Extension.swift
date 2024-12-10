@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
 extension Double {
     func convertToString() -> String {
@@ -94,5 +95,12 @@ extension String {
     
     func isValidName() -> Bool {
         count > 2
+    }
+}
+
+extension UIImageView {
+    func loadImageURL(url: String) {
+        guard let url = URL(string: url) else {return}
+        self.sd_setImage(with: url)
     }
 }

@@ -17,7 +17,7 @@ enum AllCountryHelper {
         }
     }
     
-    private var basePath: String {
+    var basePath: String {
         return "all/"
     }
     

@@ -27,7 +27,6 @@ final class CoreAPIManager {
         if !body.isEmpty {
             let bodyData = try? JSONSerialization.data(withJSONObject: body, options: [])
             request.httpBody = bodyData
-            print("body: \(String(data: try! JSONSerialization.data(withJSONObject: body, options: .prettyPrinted), encoding: .utf8)!)")
         }
         
         let task = session.dataTask(with: url) { [weak self] data, response, error in
@@ -54,7 +53,6 @@ final class CoreAPIManager {
     ) {
         do {
             let response = try JSONDecoder().decode(T.self, from: data)
-            print("Response:",response)
             completion(.success(response))
         }
         catch {
