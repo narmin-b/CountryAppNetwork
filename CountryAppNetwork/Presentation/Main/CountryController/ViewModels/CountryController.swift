@@ -171,4 +171,13 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         cell.configureCell(model: item)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = viewModel.getCountry(index: indexPath.row)
+        let controller = CountryDetailViewController(viewModel: CountryDetailViewModel(country: item!))
+        let navController = UINavigationController(rootViewController: controller)
+
+        controller.navigationItem.title = item?.titleString
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }

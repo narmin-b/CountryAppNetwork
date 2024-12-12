@@ -40,13 +40,16 @@ final class MainViewModel {
     
     func getItems() -> Int {        
         return searchList?.count ?? 0
-
+    }
+    
+    func getCountry(index: Int) -> CountryDTO? {
+        return searchList?[index]
     }
     
     func getProtocol(index: Int) -> TitleImageProtocol? {
         return searchList?[index]
     }
-    
+   
     func searchCountry(_ searchText: String) {
         if searchText.isEmpty {
             searchList = allCountryList

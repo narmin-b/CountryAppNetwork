@@ -156,3 +156,33 @@ extension CountryDTO: TitleImageProtocol {
         name?.official ?? ""
     }
 }
+
+extension CountryDTO: CountryDetailProtocol {
+    var flagString: String {
+        flags?.png ?? ""
+    }
+    
+    var areaDbl: Double {
+        area ?? 0.0
+    }
+    
+    var regionString: String {
+        region?.rawValue ?? ""
+    }
+    
+    var capitalString: String {
+        capital?.first ?? ""
+    }
+    
+    var populationInt: Int {
+        population ?? 0
+    }
+    
+    var currencyString: String {
+        currencies?.keys.first ?? ""
+    }
+    
+    var latlong: [Double] {
+        capitalInfo?.latlng ?? [0.0, 0.0]
+    }
+}
