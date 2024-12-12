@@ -28,7 +28,7 @@ class MainViewController: BaseViewController {
     }()
     
     private lazy var searchTextfield: UITextField = {
-        let textfield = ReusableTextField(placeholder: "Search", iconName: "magnifyingglass.circle", iconSetting: 10)
+        let textfield = ReusableTextField(placeholder: "Search", iconName: "magnifyingglass", iconSetting: 10)
         textfield.anchorSize(.init(width: 0, height: 48))
         textfield.delegate = self
         return textfield
@@ -121,7 +121,7 @@ class MainViewController: BaseViewController {
             bottom: view.safeAreaLayoutGuide.bottomAnchor,
             trailing: view.trailingAnchor,
             padding: .init(top: 12, left: 24, bottom: 0, right: -24)
-        ) 
+        )
     }
     
     fileprivate func configureViewModel() {
@@ -129,11 +129,9 @@ class MainViewController: BaseViewController {
             guard let self = self else {return}
             switch state {
             case .loading:
-                print("Loading state triggered")
                 self.loadingView.startAnimating()
             case .loaded:
                 DispatchQueue.main.async {
-                    print("Loaded state triggered")
                     self.loadingView.stopAnimating()
                 }
             case .success:
@@ -147,11 +145,11 @@ class MainViewController: BaseViewController {
     }
     
     @objc private func sortNameButtonClicked() {
-        viewModel.sortListByName()
+        viewModel.sortNameToggle()
     }
     
     @objc private func sortAreaButtonClicked() {
-        viewModel.sortListByArea()
+        viewModel.sortAreaToggle()
     }
 }
 
