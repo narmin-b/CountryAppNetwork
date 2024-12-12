@@ -12,28 +12,27 @@ class ReusableTextField: UITextField {
     private var iconName: String?
     private var iconSetting: Int?
     
-    init(placeholder: String!, iconName: String?, iconSetting: Int?) {
+    init(placeholder: String!, placeholderSize: Int = 12, iconName: String?, iconSetting: Int = 10) {
         self.placeholderTitle = placeholder
         self.iconName = iconName
         self.iconSetting = iconSetting
         super.init(frame: .zero)
-        configurePlaceholder()
+        configurePlaceholder(size: placeholderSize)
         configureIcon()
     }
     
-    init(placeholder: String!) {
+    init(placeholder: String!, placeholderSize: Int = 12) {
         self.placeholderTitle = placeholder
         super.init(frame: .zero)
-        configurePlaceholder()
+        configurePlaceholder(size: placeholderSize)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configurePlaceholder() {
-        attributedPlaceholder = NSAttributedString(string: placeholderTitle ?? "", attributes: [.foregroundColor:UIColor.lightGray, .font: UIFont(name: "Futura", size: 12)!])
-        borderStyle = .roundedRect
+    private func configurePlaceholder(size: Int) {
+        attributedPlaceholder = NSAttributedString(string: placeholderTitle ?? "", attributes: [.foregroundColor:UIColor.lightGray, .font: UIFont(name: "Futura", size: CGFloat(size))!])
         layer.borderColor = UIColor.black.cgColor
         layer.borderWidth = 2
         layer.cornerRadius = 12

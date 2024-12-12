@@ -17,17 +17,23 @@ class MainTabBarController: UITabBarController {
     
     fileprivate func configureView() {
         tabBar.barTintColor = .white
-        tabBar.backgroundColor = .white
+        tabBar.backgroundColor = .lightGray
         tabBar.tintColor = .black
-        tabBar.unselectedItemTintColor = .gray
+        let appearance = tabBar.standardAppearance
+        appearance.shadowImage = nil
+        appearance.shadowColor = nil
+        tabBar.standardAppearance = appearance;
     }
     
     fileprivate func setUpTabBar() {
         let mainItem = MainViewController(viewModel: MainViewModel())
         let mainIcon = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
+        let mainNavContr = UINavigationController(rootViewController: mainItem)
         mainItem.tabBarItem = mainIcon
+        mainItem.navigationItem.title = "Country List"
+        mainItem.navigationController?.navigationBar.shadowImage = UIImage()
     
-        let controllers = [mainItem]
+        let controllers = [mainNavContr]
         self.viewControllers = controllers
     }
 }

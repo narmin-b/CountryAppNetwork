@@ -12,13 +12,13 @@ class CountryTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
         label.textColor = .black
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         return label
     }()
     
     private lazy var flagImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.anchorSize(.init(width: 64, height: 32))
         imageView.backgroundColor = .clear
         imageView.layer.borderColor = UIColor.lightGray.cgColor
@@ -34,25 +34,30 @@ class CountryTableViewCell: UITableViewCell {
         stack.spacing = 4
         stack.alignment = .fill
         stack.distribution = .fill
+//        stack.anchorSize(.init(width: 40, height: 0))
         return stack
     }()
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureView()
-        configureConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     fileprivate func configureView() {
-        addSubViews(cellStack)
+        addSubview(cellStack)
+        configureConstraints()
     }
     
     fileprivate func configureConstraints() {
-        cellStack.fillSuperview(padding: .init(top: 0, left: 12, bottom: 0, right: 12))
+        cellStack.fillSuperview(padding: .init(top: 12, left: 0, bottom: -12, right: 0))
     }
     
     func configureCell(model: TitleImageProtocol) {
         countryLabel.text = model.titleString
         flagImageView.loadImageURL(url: model.imageString)
-    }   
+    }
 }
