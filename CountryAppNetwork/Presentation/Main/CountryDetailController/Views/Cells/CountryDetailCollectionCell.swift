@@ -14,7 +14,7 @@ class CountryDetailCollectionCell: UICollectionViewCell {
         label.text = "Test"
         label.textAlignment = .left
         label.numberOfLines = 1
-        label.font = UIFont(name: "Futura", size: 18)
+        label.font = UIFont(name: "Futura", size: 24)
         label.textColor = .label
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -51,27 +51,20 @@ class CountryDetailCollectionCell: UICollectionViewCell {
     }
     
     fileprivate func configureUI() {
+        backgroundColor = .lightGray
+        
         contentView.addSubview(titleLabel)
         
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
-        ])
-        
-        contentView.layer.cornerRadius = 8
-        contentView.layer.borderWidth = 1
-        contentView.layer.borderColor = UIColor.gray.cgColor
-        contentView.backgroundColor = .systemBackground
+        titleLabel.fillSuperview(padding: .init(all: 12))
     }
     
     func configureCell(title: InfoList) {
         titleLabel.text = title.rawValue.capitalized
+        titleLabel.font = UIFont(name: "Futura", size: 20)
     }
     
     func configureCell(title: String) {
         titleLabel.text = title
-        titleLabel.textColor = .secondaryLabel
+        titleLabel.font = UIFont(name: "Futura", size: 18)
     }
 }

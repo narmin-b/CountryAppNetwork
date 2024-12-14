@@ -27,8 +27,10 @@ class CountryDetailViewController: BaseViewController {
         map.overrideUserInterfaceStyle = .dark
         map.anchorSize(.init(width: 0, height: 300))
         map.translatesAutoresizingMaskIntoConstraints = false
-        map.addAnnotation(getLocationOnMap())
-        map.centerCoordinate = getLocationOnMap().coordinate
+        DispatchQueue.main.async {
+            map.addAnnotation(self.getLocationOnMap())
+        }
+        map.setCenter(getLocationOnMap().coordinate, animated: true)
         return map
     }()
     
@@ -51,35 +53,14 @@ class CountryDetailViewController: BaseViewController {
         layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CountryDetailCollectionCell.self, forCellWithReuseIdentifier: "CountryDetailCollectionCell")
+        collectionView.isScrollEnabled = false
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.anchorSize(.init(width: 180, height: 0))
+        collectionView.layer.borderWidth = 1
+        collectionView.layer.borderColor = UIColor.lightGray.cgColor
+        collectionView.layer.cornerRadius = 5
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
-    }()
-    
-    private lazy var DetailCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 5
-        layout.minimumInteritemSpacing = 5
-        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(CountryDetailCollectionCell.self, forCellWithReuseIdentifier: "CountryDetailCollectionCell")
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.anchorSize(.init(width: 180, height: 0))
-
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
-    }()
-    
-    private lazy var collectionStack: UIStackView = {
-        let scrollStack = UIStackView(arrangedSubviews: [infoCollectionView, DetailCollectionView])
-        scrollStack.axis = .horizontal
-        scrollStack.spacing = 8
-        scrollStack.translatesAutoresizingMaskIntoConstraints = false
-        return scrollStack
     }()
     
     private lazy var scrollView: UIScrollView = {
@@ -121,11 +102,18 @@ class CountryDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewModel()
+        infoCollectionView.reloadData()
+        infoCollectionView.layoutIfNeeded()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let contentHeight = infoCollectionView.contentSize.height
+        infoCollectionView.heightAnchor.constraint(equalToConstant: contentHeight).isActive = true
     }
     
     override func configureView() {
-        view.addSubViews(loadingView, mapView, flagImageView, collectionStack) //infoCollectionView)
-//        view.addSubview(scrollView)
+        view.addSubViews(loadingView, scrollView)
         view.bringSubviewToFront(loadingView)
     }
     
@@ -133,38 +121,34 @@ class CountryDetailViewController: BaseViewController {
         loadingView.centerXToSuperview()
         loadingView.centerYToSuperview()
         
-//        scrollView.fillSuperviewSafeAreaLayoutGuide(padding: .zero)
-//
+        scrollView.fillSuperviewSafeAreaLayoutGuide(padding: .zero)
+        scrollStack.anchor(
+            top: scrollView.topAnchor,
+            leading: scrollView.leadingAnchor,
+            bottom: scrollView.bottomAnchor,
+            trailing: scrollView.trailingAnchor,
+            padding: .init(all: 0)
+        )
+        scrollStack.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
         mapView.anchor(
-            top: view.safeAreaLayoutGuide.topAnchor,
-            leading: view.leadingAnchor,
-            trailing: view.trailingAnchor,
-            padding: .init(top: 0, left: 0, bottom: 0, right: 0)
+            top: scrollStack.topAnchor,
+            leading: scrollStack.leadingAnchor,
+            trailing: scrollStack.trailingAnchor,
+            padding: .init(all: 0)
         )
         
-        flagImageView.anchor(
-            top: mapView.bottomAnchor,
-            padding: .init(top: 12, left: 0, bottom: 0, right: 0)
-        )
-        flagImageView.centerXToSuperview()
+        flagImageView.centerXToView(to: scrollStack)
         
-        collectionStack.anchor(
-            top: flagImageView.bottomAnchor,
-            leading: view.leadingAnchor,
-            bottom: view.safeAreaLayoutGuide.bottomAnchor,
-            trailing: view.trailingAnchor,
-            padding: .init(top: 12, left: 16, bottom: 0, right: -16)
+        infoCollectionView.anchor(
+            leading: scrollStack.leadingAnchor,
+            bottom: scrollStack.bottomAnchor,
+            trailing: scrollStack.trailingAnchor,
+            padding: .init(top: 0, left: 60, bottom: 0, right: -60)
         )
-        
-//        infoCollectionView.anchor(
-//            top: flagImageView.bottomAnchor,
-//            leading: view.leadingAnchor,
-//            bottom: view.safeAreaLayoutGuide.bottomAnchor,
-//            trailing: view.trailingAnchor,
-//            padding: .init(top: 12, left: 16, bottom: 0, right: -16)
-//        )
+        infoCollectionView.heightAnchor.constraint(equalToConstant: 400).isActive = true
     }
-    
+  
     fileprivate func configureViewModel() {
         viewModel.listener = { [weak self] state in
             guard let self = self else { return }
@@ -186,7 +170,7 @@ class CountryDetailViewController: BaseViewController {
     }
     
     fileprivate func getTitleForCell(indexPath: IndexPath) -> String {
-        let field = InfoList.allCases[indexPath.row]
+        let field = InfoList.allCases[indexPath.row / 2]
         let country = viewModel.getCountry()
         switch field {
         case .region:
@@ -205,7 +189,6 @@ class CountryDetailViewController: BaseViewController {
     fileprivate func getLocationOnMap() ->  MKPointAnnotation {
         coordinates = viewModel.getCoordinates()
         let countryPin = MKPointAnnotation()
-        countryPin.title = "Capital"
         countryPin.coordinate = coordinates ?? CLLocationCoordinate2D()
         return countryPin
     }
@@ -217,29 +200,31 @@ extension CountryDetailViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return InfoList.allCases.count
+        return InfoList.allCases.count * 2
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CountryDetailCollectionCell", for: indexPath) as? CountryDetailCollectionCell else {
             return UICollectionViewCell()
         }
-        let field = InfoList.allCases[indexPath.row]
         
-        if collectionView == infoCollectionView {
+        let field = InfoList.allCases[indexPath.item / 2]
+        
+        if(indexPath.item % 2 == 0) {
             cell.configureCell(title: field)
         } else {
             let title = getTitleForCell(indexPath: indexPath)
             cell.configureCell(title: title)
         }
+
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 144, height: 60)
+        return CGSize(width: 130, height: 48)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
     }
 }
