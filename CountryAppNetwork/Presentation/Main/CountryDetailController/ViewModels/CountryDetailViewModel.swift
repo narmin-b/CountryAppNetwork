@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MapKit
 
 final class CountryDetailViewModel {
     enum ViewState {
@@ -24,5 +25,13 @@ final class CountryDetailViewModel {
     
     func getCountry() -> CountryDetailProtocol {
         return country
+    }
+    
+    func getCoordinates() -> CLLocationCoordinate2D {
+        let lat = CLLocationDegrees(country.latlong.first ?? 0.0)
+        let long = CLLocationDegrees(country.latlong.last ?? 0.0)
+
+        let coordinates = CLLocationCoordinate2DMake(lat, long)
+        return coordinates
     }
 }
