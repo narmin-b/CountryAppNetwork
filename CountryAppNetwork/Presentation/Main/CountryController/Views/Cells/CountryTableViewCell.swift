@@ -56,7 +56,7 @@ class CountryTableViewCell: UICollectionViewCell {
     }
     
     func configureCell(model: TitleImageProtocol) {
-        backgroundColor = .backgroundColorSecondary
+        backgroundColor = .backgroundSecondary
         layer.cornerRadius = 8
         
         countryLabel.text = model.titleString

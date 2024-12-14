@@ -8,11 +8,14 @@
 import UIKit
 import MapKit
 
+// TODO: detail func seperately, map into functions
+
 enum InfoList: String, CaseIterable {
     case region, area, capital, population, currency
 }
 
 class CountryDetailViewController: BaseViewController {
+   
     private lazy var loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
         view.color = .black
@@ -58,24 +61,21 @@ class CountryDetailViewController: BaseViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
-        collectionView.layer.borderWidth = 1
-        collectionView.layer.borderColor = UIColor.lightGray.cgColor
-        collectionView.layer.cornerRadius = 5
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
     private lazy var bgView: UIView = {
         let view = UIView()
-        view.backgroundColor = .backgroundColorSecondary.withAlphaComponent(0.5)
-        view.anchorSize(.init(width: 0, height: 200))
+        view.backgroundColor = .backgroundThird
+        view.anchorSize(.init(width: 0, height: 400))
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .white
+        scrollView.backgroundColor = .clear
         scrollView.addSubview(scrollStack)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
@@ -85,7 +85,7 @@ class CountryDetailViewController: BaseViewController {
         let scrollStack = UIStackView(arrangedSubviews: [mapView, flagImageView, infoCollectionView])
         scrollStack.axis = .vertical
         scrollStack.spacing = 12
-        scrollStack.backgroundColor = .backgroundColorSecondary.withAlphaComponent(0.5)
+        scrollStack.backgroundColor = .backgroundThird
         scrollStack.layer.cornerRadius = 48
         scrollStack.translatesAutoresizingMaskIntoConstraints = false
         return scrollStack
@@ -121,7 +121,7 @@ class CountryDetailViewController: BaseViewController {
     
     fileprivate func configureNavigationBar() {
         
-        navigationController?.navigationBar.tintColor = .backgroundColorMain
+        navigationController?.navigationBar.tintColor = .backgroundMain
         navigationController?.navigationBar.backgroundColor = .clear
 
         let backButton = UIBarButtonItem()

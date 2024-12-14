@@ -17,7 +17,7 @@ class MainTabBarController: UITabBarController {
     
     fileprivate func configureView() {
         tabBar.barTintColor = .black
-        tabBar.backgroundColor = .backgroundColorMain.withAlphaComponent(0.5)
+        tabBar.backgroundColor = .backgroundMain.withAlphaComponent(0.5)
         tabBar.tintColor = .highlighted
         tabBar.unselectedItemTintColor = .main
         let appearance = tabBar.standardAppearance

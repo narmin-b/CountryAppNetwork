@@ -42,7 +42,7 @@ class CountryDetailCollectionCell: UICollectionViewCell {
     }
     
     fileprivate func configureUI() {
-        backgroundColor = .backgroundColorSecondary
+        backgroundColor = .backgroundSecondary
         
         contentView.addSubview(titleLabel)
         titleLabel.fillSuperview(padding: .init(all: 12))

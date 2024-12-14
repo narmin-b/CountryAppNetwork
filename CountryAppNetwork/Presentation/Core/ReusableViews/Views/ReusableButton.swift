@@ -26,7 +26,7 @@ class ReusableButton: UIButton {
     private func configureButton() {
         setAttributedTitle(NSAttributedString(string: title, attributes: [.font: UIFont(name: "Futura", size: 18)!]), for: .normal)
         setTitleColor(.white, for: .normal)
-        backgroundColor = .backgroundColorMain
+        backgroundColor = .backgroundMain
         layer.cornerRadius = 12
         titleLabel?.textAlignment = .center
         layer.masksToBounds = true
