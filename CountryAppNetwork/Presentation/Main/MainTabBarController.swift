@@ -16,9 +16,10 @@ class MainTabBarController: UITabBarController {
     }
     
     fileprivate func configureView() {
-        tabBar.barTintColor = .white
-        tabBar.backgroundColor = .lightGray
-        tabBar.tintColor = .black
+        tabBar.barTintColor = .black
+        tabBar.backgroundColor = .backgroundColorMain.withAlphaComponent(0.5)
+        tabBar.tintColor = .highlighted
+        tabBar.unselectedItemTintColor = .main
         let appearance = tabBar.standardAppearance
         appearance.shadowImage = nil
         appearance.shadowColor = nil
@@ -31,6 +32,7 @@ class MainTabBarController: UITabBarController {
         let mainNavContr = UINavigationController(rootViewController: mainItem)
         mainItem.tabBarItem = mainIcon
         mainItem.navigationItem.title = "Country List"
+        mainItem.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Futura", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor.highlighted]
         mainItem.navigationController?.navigationBar.shadowImage = UIImage()
     
         let controllers = [mainNavContr]

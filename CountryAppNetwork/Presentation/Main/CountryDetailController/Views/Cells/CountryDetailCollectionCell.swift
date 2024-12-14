@@ -12,6 +12,7 @@ class CountryDetailCollectionCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
         let label = ReusableLabel(labelText: "Test", labelSize: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
         return label
     }()
     
@@ -41,20 +42,19 @@ class CountryDetailCollectionCell: UICollectionViewCell {
     }
     
     fileprivate func configureUI() {
-        backgroundColor = .lightGray
+        backgroundColor = .backgroundColorSecondary
         
         contentView.addSubview(titleLabel)
         titleLabel.fillSuperview(padding: .init(all: 12))
     }
     
     func configureCell(title: InfoList) {
-        titleLabel.text = title.rawValue.capitalized
+        titleLabel.text = title.rawValue.capitalized + ":"
         titleLabel.font = UIFont(name: "Futura", size: 20)
     }
     
     func configureCell(title: String) {
         titleLabel.text = title
-        titleLabel.font = UIFont(name: "Futura", size: 18)
-        titleLabel.fillSuperview(padding: .init(top: 12, left: 6, bottom: -12, right: -12))
+        titleLabel.font = UIFont(name: "Futura", size: 16)
     }
 }

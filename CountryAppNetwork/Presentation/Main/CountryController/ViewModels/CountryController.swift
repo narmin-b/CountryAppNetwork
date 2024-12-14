@@ -18,13 +18,17 @@ class MainViewController: BaseViewController {
         return view
     }()
     
-    private lazy var countryTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.register(cell: CountryTableViewCell.self)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
+    private lazy var countryCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 8
+        layout.minimumInteritemSpacing = 0
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(CountryTableViewCell.self, forCellWithReuseIdentifier: "CountryTableViewCell")
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
     }()
     
     private lazy var searchTextfield: UITextField = {
@@ -86,10 +90,17 @@ class MainViewController: BaseViewController {
         viewModel.getAllCountryList()
     }
     
-    override func configureView() {
-        view.backgroundColor = .white
+    fileprivate func configureNavigationBar() {
         navigationController?.navigationBar.barTintColor = .white
-        view.addSubViews(loadingView, countryTableView, searchFieldStack)
+    }
+    
+
+    override func configureView() {
+        configureNavigationBar()
+        
+        view.backgroundColor = .white
+        
+        view.addSubViews(loadingView, countryCollectionView, searchFieldStack)
         view.bringSubviewToFront(loadingView)
     }
     
@@ -115,7 +126,7 @@ class MainViewController: BaseViewController {
             bottom: searchFieldStack.bottomAnchor,
             trailing: searchFieldStack.trailingAnchor
         )
-        countryTableView.anchor(
+        countryCollectionView.anchor(
             top: searchFieldStack.bottomAnchor,
             leading: view.leadingAnchor,
             bottom: view.safeAreaLayoutGuide.bottomAnchor,
@@ -136,7 +147,7 @@ class MainViewController: BaseViewController {
                 }
             case .success:
                 DispatchQueue.main.async {
-                    self.countryTableView.reloadData()
+                    self.countryCollectionView.reloadData()
                 }
             case .error(message: let message):
                 showMessage(title: message)
@@ -160,24 +171,32 @@ extension MainViewController: UITextFieldDelegate {
     }
 }
 
-extension MainViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.getItems()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(for: CountryTableViewCell.self, for: indexPath)
-        guard let item = viewModel.getProtocol(index: indexPath.row) else {return UITableViewCell()}
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CountryTableViewCell", for: indexPath) as? CountryTableViewCell else {
+            return UICollectionViewCell()
+        }
+        
+        guard let item = viewModel.getProtocol(index: indexPath.row) else {return UICollectionViewCell()}
         cell.configureCell(model: item)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let item = viewModel.getCountry(index: indexPath.row)
         let controller = CountryDetailViewController(viewModel: CountryDetailViewModel(country: item!))
         let navController = UINavigationController(rootViewController: controller)
-
+        
         controller.navigationItem.title = item?.titleString
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.bounds.width
+        return CGSize(width: width, height: 60)
     }
 }

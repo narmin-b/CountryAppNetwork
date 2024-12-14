@@ -50,18 +50,27 @@ class CountryDetailViewController: BaseViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 5
-        layout.minimumInteritemSpacing = 5
-        layout.sectionInset = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        layout.minimumInteritemSpacing = 0
+        layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CountryDetailCollectionCell.self, forCellWithReuseIdentifier: "CountryDetailCollectionCell")
         collectionView.isScrollEnabled = false
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.backgroundColor = .clear
         collectionView.layer.borderWidth = 1
         collectionView.layer.borderColor = UIColor.lightGray.cgColor
         collectionView.layer.cornerRadius = 5
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
+    }()
+    
+    private lazy var bgView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .backgroundColorSecondary.withAlphaComponent(0.5)
+        view.anchorSize(.init(width: 0, height: 200))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     private lazy var scrollView: UIScrollView = {
@@ -76,6 +85,8 @@ class CountryDetailViewController: BaseViewController {
         let scrollStack = UIStackView(arrangedSubviews: [mapView, flagImageView, infoCollectionView])
         scrollStack.axis = .vertical
         scrollStack.spacing = 12
+        scrollStack.backgroundColor = .backgroundColorSecondary.withAlphaComponent(0.5)
+        scrollStack.layer.cornerRadius = 48
         scrollStack.translatesAutoresizingMaskIntoConstraints = false
         return scrollStack
     }()
@@ -102,9 +113,20 @@ class CountryDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureViewModel()
         infoCollectionView.reloadData()
         infoCollectionView.layoutIfNeeded()
+    }
+    
+    fileprivate func configureNavigationBar() {
+        
+        navigationController?.navigationBar.tintColor = .backgroundColorMain
+        navigationController?.navigationBar.backgroundColor = .clear
+
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
     }
     
     override func viewDidLayoutSubviews() {
@@ -114,11 +136,20 @@ class CountryDetailViewController: BaseViewController {
     }
     
     override func configureView() {
-        view.addSubViews(loadingView, scrollView)
+        configureNavigationBar()
+
+        view.addSubViews(bgView, loadingView, scrollView)
         view.bringSubviewToFront(loadingView)
     }
     
     override func configureConstraint() {
+        bgView.anchor(
+            top: view.topAnchor,
+            leading: view.leadingAnchor,
+            trailing: view.trailingAnchor,
+            padding: .init(all: 0)
+        )
+                
         loadingView.centerXToSuperview()
         loadingView.centerYToSuperview()
         
@@ -198,10 +229,10 @@ extension CountryDetailViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (infoCollectionView.frame.width - 15)/2, height: 48)
+        return CGSize(width: (infoCollectionView.frame.width)/2, height: 48)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        return UIEdgeInsets(top: 5, left: 0, bottom: 80, right: 0)
     }
 }

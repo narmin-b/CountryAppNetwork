@@ -32,8 +32,8 @@ class ReusableTextField: UITextField {
     }
     
     private func configurePlaceholder(size: Int) {
-        attributedPlaceholder = NSAttributedString(string: placeholderTitle ?? "", attributes: [.foregroundColor:UIColor.lightGray, .font: UIFont(name: "Futura", size: CGFloat(size))!])
-        layer.borderColor = UIColor.black.cgColor
+        attributedPlaceholder = NSAttributedString(string: placeholderTitle ?? "", attributes: [.foregroundColor: UIColor.backgroundColorMain.withAlphaComponent(0.4), .font: UIFont(name: "Futura", size: CGFloat(size))!])
+        layer.borderColor = UIColor.backgroundColorMain.cgColor
         layer.borderWidth = 2
         layer.cornerRadius = 12
     }
@@ -45,7 +45,7 @@ class ReusableTextField: UITextField {
     
     fileprivate func iconUISetting(_ iconName: String, x: Int = 10) -> UIView {
         let icon = UIImageView(image: UIImage(systemName: iconName))
-        icon.tintColor = .black
+        icon.tintColor = .backgroundColorMain
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: icon.frame.height))
         icon.frame = CGRect(x: CGFloat(integerLiteral: x), y: 0, width: icon.frame.width, height: icon.frame.height)
         paddingView.addSubview(icon)
