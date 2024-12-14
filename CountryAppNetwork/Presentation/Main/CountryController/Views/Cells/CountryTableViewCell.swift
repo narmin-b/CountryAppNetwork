@@ -9,10 +9,8 @@ import UIKit
 
 class CountryTableViewCell: UITableViewCell {
     private lazy var countryLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16)
-        label.textColor = .black
-        label.numberOfLines = 1
+        let label = ReusableLabel(labelText: "Test", labelSize: 16)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     

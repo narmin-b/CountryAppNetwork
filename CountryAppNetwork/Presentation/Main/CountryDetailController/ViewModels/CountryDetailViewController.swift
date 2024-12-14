@@ -28,9 +28,10 @@ class CountryDetailViewController: BaseViewController {
         map.anchorSize(.init(width: 0, height: 300))
         map.translatesAutoresizingMaskIntoConstraints = false
         DispatchQueue.main.async {
-            map.addAnnotation(self.getLocationOnMap())
+            map.addAnnotation(self.viewModel.getLocationOnMap())
         }
-        map.setCenter(getLocationOnMap().coordinate, animated: true)
+        map.setCenter(viewModel.getCoordinates(), animated: true)
+        
         return map
     }()
     
@@ -168,30 +169,6 @@ class CountryDetailViewController: BaseViewController {
             }
         }
     }
-    
-    fileprivate func getTitleForCell(indexPath: IndexPath) -> String {
-        let field = InfoList.allCases[indexPath.row / 2]
-        let country = viewModel.getCountry()
-        switch field {
-        case .region:
-            return country.regionString
-        case .area:
-            return String(country.areaDbl)
-        case .capital:
-            return country.capitalString
-        case .population:
-            return String(country.populationInt)
-        case .currency:
-            return country.currencyString
-        }
-    }
-    
-    fileprivate func getLocationOnMap() ->  MKPointAnnotation {
-        coordinates = viewModel.getCoordinates()
-        let countryPin = MKPointAnnotation()
-        countryPin.coordinate = coordinates ?? CLLocationCoordinate2D()
-        return countryPin
-    }
 }
 
 extension CountryDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -213,7 +190,7 @@ extension CountryDetailViewController: UICollectionViewDelegate, UICollectionVie
         if(indexPath.item % 2 == 0) {
             cell.configureCell(title: field)
         } else {
-            let title = getTitleForCell(indexPath: indexPath)
+            let title = viewModel.getTitleForCell(indexPath: indexPath)
             cell.configureCell(title: title)
         }
 
@@ -221,7 +198,7 @@ extension CountryDetailViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 130, height: 48)
+        return CGSize(width: (infoCollectionView.frame.width - 15)/2, height: 48)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

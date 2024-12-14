@@ -12,10 +12,10 @@ class ReusableLabel: UILabel {
     private var labelColor: UIColor?
     private var labelFont: UIFont?
     
-    init(labelText: String!, labelColor: UIColor? = .black, labelFont: UIFont? = UIFont(name: "Futura", size: 12)) {
+    init(labelText: String!, labelColor: UIColor? = .black, labelFont: String? = "Futura", labelSize: Int? = 12) {
         self.labelText = labelText
         self.labelColor = labelColor
-        self.labelFont = labelFont
+        self.labelFont = UIFont(name: labelFont ?? "Futura", size: CGFloat(integerLiteral: labelSize ?? 0))
         super.init(frame: .zero)
         configureLabel()
     }
@@ -29,5 +29,6 @@ class ReusableLabel: UILabel {
         textColor = labelColor
         textAlignment = .left
         font = labelFont
+        numberOfLines = 1
     }
 }

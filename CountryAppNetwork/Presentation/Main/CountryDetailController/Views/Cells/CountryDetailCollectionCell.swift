@@ -10,23 +10,13 @@ import UIKit
 class CountryDetailCollectionCell: UICollectionViewCell {
   
     private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Test"
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.font = UIFont(name: "Futura", size: 24)
-        label.textColor = .label
+        let label = ReusableLabel(labelText: "Test", labelSize: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Test"
-        label.textAlignment = .left
-        label.numberOfLines = 1
-        label.font = UIFont(name: "Futura", size: 16)
-        label.textColor = .secondaryLabel
+        let label = ReusableLabel(labelText: "Test", labelColor: .secondaryLabel, labelSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -54,7 +44,6 @@ class CountryDetailCollectionCell: UICollectionViewCell {
         backgroundColor = .lightGray
         
         contentView.addSubview(titleLabel)
-        
         titleLabel.fillSuperview(padding: .init(all: 12))
     }
     
@@ -66,5 +55,6 @@ class CountryDetailCollectionCell: UICollectionViewCell {
     func configureCell(title: String) {
         titleLabel.text = title
         titleLabel.font = UIFont(name: "Futura", size: 18)
+        titleLabel.fillSuperview(padding: .init(top: 12, left: 6, bottom: -12, right: -12))
     }
 }

@@ -32,6 +32,36 @@ final class CountryDetailViewModel {
         let long = CLLocationDegrees(country.latlong.last ?? 0.0)
 
         let coordinates = CLLocationCoordinate2DMake(lat, long)
+        listener?(.success)
         return coordinates
+    }
+    
+    func getTitleForCell(indexPath: IndexPath) -> String {
+        let field = InfoList.allCases[indexPath.row / 2]
+
+        switch field {
+        case .region:
+            listener?(.success)
+            return country.regionString
+        case .area:
+            listener?(.success)
+            return String(country.areaDbl)
+        case .capital:
+            listener?(.success)
+            return country.capitalString
+        case .population:
+            listener?(.success)
+            return String(country.populationInt)
+        case .currency:
+            listener?(.success)
+            return country.currencyString
+        }
+    }
+    
+    func getLocationOnMap() ->  MKPointAnnotation {
+        let countryPin = MKPointAnnotation()
+        countryPin.coordinate = getCoordinates()
+        listener?(.success)
+        return countryPin
     }
 }
