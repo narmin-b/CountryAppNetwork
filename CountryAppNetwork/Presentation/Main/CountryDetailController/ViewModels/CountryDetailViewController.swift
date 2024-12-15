@@ -8,13 +8,17 @@
 import UIKit
 import MapKit
 
-// TODO: detail func seperately, map into functions, refresh
-
 enum InfoList: String, CaseIterable {
     case region, area, capital, population, currency
 }
 
 class CountryDetailViewController: BaseViewController {
+    private lazy var refreshController: UIRefreshControl = {
+        let controller = UIRefreshControl()
+        controller.addTarget(self, action: #selector(refreshPage), for: .valueChanged)
+        controller.translatesAutoresizingMaskIntoConstraints = false
+        return controller
+    }()
    
     private lazy var loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
@@ -28,13 +32,7 @@ class CountryDetailViewController: BaseViewController {
     private lazy var mapView: MKMapView = {
         let map = MKMapView()
         map.overrideUserInterfaceStyle = .dark
-        map.anchorSize(.init(width: 0, height: 300))
         map.translatesAutoresizingMaskIntoConstraints = false
-        DispatchQueue.main.async {
-            map.addAnnotation(self.viewModel.getLocationOnMap())
-        }
-        map.setCenter(viewModel.getCoordinates(), animated: true)
-        
         return map
     }()
     
@@ -43,9 +41,7 @@ class CountryDetailViewController: BaseViewController {
         view.contentMode = .scaleAspectFit
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.anchorSize(.init(width: 0, height: 160))
-        let country = viewModel.getCountry()
-        view.loadImageURL(url: country.flagString)
+
         return view
     }()
     
@@ -55,6 +51,7 @@ class CountryDetailViewController: BaseViewController {
         layout.minimumLineSpacing = 5
         layout.minimumInteritemSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CountryDetailCollectionCell.self, forCellWithReuseIdentifier: "CountryDetailCollectionCell")
         collectionView.isScrollEnabled = false
@@ -68,7 +65,6 @@ class CountryDetailViewController: BaseViewController {
     private lazy var bgView: UIView = {
         let view = UIView()
         view.backgroundColor = .backgroundThird
-        view.anchorSize(.init(width: 0, height: 400))
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -77,6 +73,7 @@ class CountryDetailViewController: BaseViewController {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .clear
         scrollView.addSubview(scrollStack)
+        scrollView.refreshControl = refreshController
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
@@ -92,7 +89,6 @@ class CountryDetailViewController: BaseViewController {
     }()
     
     private var viewModel: CountryDetailViewModel
-    private var coordinates: CLLocationCoordinate2D?
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -111,12 +107,29 @@ class CountryDetailViewController: BaseViewController {
         tabBarController?.tabBar.isHidden = false
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let contentHeight = infoCollectionView.contentSize.height
+        infoCollectionView.heightAnchor.constraint(equalToConstant: contentHeight).isActive = true
+        
+        mapView.anchorSize(.init(width: 0, height: view.safeAreaLayoutGuide.layoutFrame.height/3))
+        
+        flagImageView.anchorSize(.init(width: 0, height: view.safeAreaLayoutGuide.layoutFrame.height/4))
+
+        bgView.anchorSize(.init(width: 0, height: view.safeAreaLayoutGuide.layoutFrame.height/3*2))
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureViewModel()
         infoCollectionView.reloadData()
         infoCollectionView.layoutIfNeeded()
+    }
+    
+    fileprivate func loadFlagImage() {
+        let country = viewModel.getCountry()
+        flagImageView.loadImageURL(url: country.flagString)
     }
     
     fileprivate func configureNavigationBar() {
@@ -128,15 +141,12 @@ class CountryDetailViewController: BaseViewController {
         navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let contentHeight = infoCollectionView.contentSize.height
-        infoCollectionView.heightAnchor.constraint(equalToConstant: contentHeight).isActive = true
-    }
-    
     override func configureView() {
         configureNavigationBar()
-
+        configureMapView()
+        loadFlagImage()
+        
+        view.backgroundColor = .backgroundMain
         view.addSubViews(bgView, loadingView, scrollView)
         view.bringSubviewToFront(loadingView)
     }
@@ -193,11 +203,34 @@ class CountryDetailViewController: BaseViewController {
             case .success:
                 DispatchQueue.main.async {
                     self.infoCollectionView.reloadData()
+                    self.refreshController.endRefreshing()
                 }
             case .error(let message):
                 self.showMessage(title: message)
             }
         }
+    }
+    
+    fileprivate func configureMapView() {
+        setRegion()
+        addPin()
+    }
+    
+    fileprivate func addPin() {
+        DispatchQueue.main.async {
+            self.mapView.addAnnotation(self.viewModel.getLocationOnMap())
+        }
+    }
+    
+    fileprivate func setRegion() {
+        let coordinates = viewModel.getCoordinates()
+        let span: MKCoordinateSpan = MKCoordinateSpan(
+            latitudeDelta: 0.5, longitudeDelta: 0.5)
+        mapView.setRegion(.init(center: coordinates, span: span), animated: true)
+    }
+    
+    @objc fileprivate func refreshPage() {
+        setRegion()
     }
 }
 
