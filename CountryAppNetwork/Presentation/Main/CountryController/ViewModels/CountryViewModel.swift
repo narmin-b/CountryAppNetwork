@@ -11,6 +11,7 @@ final class MainViewModel {
     enum ViewState {
         case loading
         case loaded
+        case refreshed
         case success
         case error(message: String)
     }
@@ -23,11 +24,10 @@ final class MainViewModel {
     private var areaSortBigToSmall: Bool = false
     private var nameSortZToA: Bool = false
     
-    func getAllCountryList() {
-        self.listener?(.loading)
+    fileprivate func reloadAllCountryList(state: ViewState) {
         AllCountryAPIService.instance.getAllCountry { [weak self] result, error in
             guard let self = self else {return}
-            listener?(.loaded)
+            listener?(state)
             if let result = result {
                 allCountryList = result
                 searchList = allCountryList
@@ -36,6 +36,15 @@ final class MainViewModel {
                 listener?(.error(message: error.localizedDescription))
             }
         }
+    }
+    
+    func getAllCountryList() {
+        self.listener?(.loading)
+        reloadAllCountryList(state: .loaded)
+    }
+    
+    func refreshAllCountryList() {
+        reloadAllCountryList(state: .refreshed)
     }
     
     func getItems() -> Int {        

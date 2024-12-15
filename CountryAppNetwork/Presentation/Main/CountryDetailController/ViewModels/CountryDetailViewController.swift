@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-// TODO: detail func seperately, map into functions
+// TODO: detail func seperately, map into functions, refresh
 
 enum InfoList: String, CaseIterable {
     case region, area, capital, population, currency
@@ -120,7 +120,6 @@ class CountryDetailViewController: BaseViewController {
     }
     
     fileprivate func configureNavigationBar() {
-        
         navigationController?.navigationBar.tintColor = .backgroundMain
         navigationController?.navigationBar.backgroundColor = .clear
 
@@ -236,3 +235,4 @@ extension CountryDetailViewController: UICollectionViewDelegate, UICollectionVie
         return UIEdgeInsets(top: 5, left: 0, bottom: 80, right: 0)
     }
 }
+

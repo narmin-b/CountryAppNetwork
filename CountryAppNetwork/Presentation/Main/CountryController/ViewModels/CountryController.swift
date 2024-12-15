@@ -8,6 +8,13 @@
 import UIKit
 
 class MainViewController: BaseViewController {
+    private lazy var refreshController: UIRefreshControl = {
+        let controller = UIRefreshControl()
+        controller.addTarget(self, action: #selector(refreshList), for: .valueChanged)
+        controller.translatesAutoresizingMaskIntoConstraints = false
+        return controller
+    }()
+    
     private lazy var loadingView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
         view.color = .black
@@ -23,10 +30,12 @@ class MainViewController: BaseViewController {
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 8
         layout.minimumInteritemSpacing = 0
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(CountryTableViewCell.self, forCellWithReuseIdentifier: "CountryTableViewCell")
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.refreshControl = refreshController
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -151,8 +160,16 @@ class MainViewController: BaseViewController {
                 }
             case .error(message: let message):
                 showMessage(title: message)
+            case .refreshed:
+                DispatchQueue.main.async {
+                    self.refreshController.endRefreshing()
+                }
             }
         }
+    }
+    
+    @objc private func refreshList() {
+        viewModel.refreshAllCountryList()
     }
     
     @objc private func sortNameButtonClicked() {
