@@ -48,7 +48,7 @@ class CountryDetailViewController: BaseViewController {
     private lazy var infoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 5
+        layout.minimumLineSpacing = 4
         layout.minimumInteritemSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
         
@@ -81,7 +81,7 @@ class CountryDetailViewController: BaseViewController {
     private lazy var scrollStack: UIStackView = {
         let scrollStack = UIStackView(arrangedSubviews: [mapView, flagImageView, infoCollectionView])
         scrollStack.axis = .vertical
-        scrollStack.spacing = 12
+        scrollStack.spacing = 20
         scrollStack.backgroundColor = .backgroundThird
         scrollStack.layer.cornerRadius = 48
         scrollStack.translatesAutoresizingMaskIntoConstraints = false
@@ -162,7 +162,14 @@ class CountryDetailViewController: BaseViewController {
         loadingView.centerXToSuperview()
         loadingView.centerYToSuperview()
         
-        scrollView.fillSuperviewSafeAreaLayoutGuide(padding: .zero)
+        scrollView.anchor(
+            top: view.safeAreaLayoutGuide.topAnchor,
+            leading: view.leadingAnchor,
+            bottom: view.bottomAnchor,
+            trailing: view.trailingAnchor,
+            padding: .init(all: 0)
+        )
+        
         scrollStack.anchor(
             top: scrollView.topAnchor,
             leading: scrollView.leadingAnchor,
