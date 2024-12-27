@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		110044D02D0C7FAD007A3716 /* CountryDetailCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110044CF2D0C7FAD007A3716 /* CountryDetailCollectionCell.swift */; };
+		1100C5792D1EFF3300EE373E /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1100C5782D1EFF3300EE373E /* SDWebImage */; };
 		119EB7CD2D044E63007833E2 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 119EB7CC2D044E63007833E2 /* SDWebImage */; };
 		119EB7D22D045061007833E2 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 119EB7D12D045061007833E2 /* SDWebImage */; };
 		119EB8BD2D045B6C007833E2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119EB8972D045B6C007833E2 /* AppDelegate.swift */; };
@@ -30,6 +31,9 @@
 		119EB8CE2D045B6C007833E2 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119EB8B62D045B6C007833E2 /* MainTabBarController.swift */; };
 		119EB8CF2D045B6C007833E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 119EB8B92D045B6C007833E2 /* Assets.xcassets */; };
 		11AD3FE32D0E22440056F779 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11AD3FE22D0E22440056F779 /* Colors.xcassets */; };
+		11CC75B82D15D72D00903217 /* Nexa-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11CC75B42D15D72D00903217 /* Nexa-Bold.ttf */; };
+		11CC75B92D15D72D00903217 /* Nexa-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11CC75B62D15D72D00903217 /* Nexa-Regular.ttf */; };
+		11CC75BA2D15D72D00903217 /* Nexa-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 11CC75B52D15D72D00903217 /* Nexa-Light.ttf */; };
 		11DC1B2D2D07654800D6402E /* TitleImageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC1B2C2D07654800D6402E /* TitleImageProtocol.swift */; };
 		11E1D16B2D0B223A00E16816 /* CountryDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E1D16A2D0B223A00E16816 /* CountryDetailViewModel.swift */; };
 		11E1D16D2D0B225200E16816 /* CountryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E1D16C2D0B225200E16816 /* CountryDetailViewController.swift */; };
@@ -60,6 +64,9 @@
 		119EB8B92D045B6C007833E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		119EB8BB2D045B6C007833E2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11AD3FE22D0E22440056F779 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		11CC75B42D15D72D00903217 /* Nexa-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nexa-Bold.ttf"; sourceTree = "<group>"; };
+		11CC75B52D15D72D00903217 /* Nexa-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nexa-Light.ttf"; sourceTree = "<group>"; };
+		11CC75B62D15D72D00903217 /* Nexa-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nexa-Regular.ttf"; sourceTree = "<group>"; };
 		11DC1B2C2D07654800D6402E /* TitleImageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleImageProtocol.swift; sourceTree = "<group>"; };
 		11E1D16A2D0B223A00E16816 /* CountryDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailViewModel.swift; sourceTree = "<group>"; };
 		11E1D16C2D0B225200E16816 /* CountryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryDetailViewController.swift; sourceTree = "<group>"; };
@@ -71,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1100C5792D1EFF3300EE373E /* SDWebImage in Frameworks */,
 				119EB7D22D045061007833E2 /* SDWebImage in Frameworks */,
 				119EB7CD2D044E63007833E2 /* SDWebImage in Frameworks */,
 			);
@@ -242,6 +250,7 @@
 		119EB8BA2D045B6C007833E2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				11CC75B72D15D72D00903217 /* Nexa */,
 				119EB8B92D045B6C007833E2 /* Assets.xcassets */,
 				11AD3FE22D0E22440056F779 /* Colors.xcassets */,
 			);
@@ -259,6 +268,16 @@
 				119EB8BB2D045B6C007833E2 /* Info.plist */,
 			);
 			path = CountryAppNetwork;
+			sourceTree = "<group>";
+		};
+		11CC75B72D15D72D00903217 /* Nexa */ = {
+			isa = PBXGroup;
+			children = (
+				11CC75B42D15D72D00903217 /* Nexa-Bold.ttf */,
+				11CC75B52D15D72D00903217 /* Nexa-Light.ttf */,
+				11CC75B62D15D72D00903217 /* Nexa-Regular.ttf */,
+			);
+			path = Nexa;
 			sourceTree = "<group>";
 		};
 		11E1D1672D0B222600E16816 /* ViewModels */ = {
@@ -323,6 +342,7 @@
 			packageProductDependencies = (
 				119EB7CC2D044E63007833E2 /* SDWebImage */,
 				119EB7D12D045061007833E2 /* SDWebImage */,
+				1100C5782D1EFF3300EE373E /* SDWebImage */,
 			);
 			productName = CountryAppNetwork;
 			productReference = 119EB7932D044D84007833E2 /* CountryAppNetwork.app */;
@@ -353,7 +373,7 @@
 			mainGroup = 119EB78A2D044D84007833E2;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				119EB7D02D045061007833E2 /* XCLocalSwiftPackageReference "../../Downloads/SDWebImage-master" */,
+				1100C5772D1EFF3300EE373E /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 119EB7942D044D84007833E2 /* Products */;
@@ -372,6 +392,9 @@
 			files = (
 				119EB8CF2D045B6C007833E2 /* Assets.xcassets in Resources */,
 				11AD3FE32D0E22440056F779 /* Colors.xcassets in Resources */,
+				11CC75B82D15D72D00903217 /* Nexa-Bold.ttf in Resources */,
+				11CC75B92D15D72D00903217 /* Nexa-Regular.ttf in Resources */,
+				11CC75BA2D15D72D00903217 /* Nexa-Light.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -617,14 +640,23 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		119EB7D02D045061007833E2 /* XCLocalSwiftPackageReference "../../Downloads/SDWebImage-master" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../Downloads/SDWebImage-master";
+/* Begin XCRemoteSwiftPackageReference section */
+		1100C5772D1EFF3300EE373E /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.20.0;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1100C5782D1EFF3300EE373E /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1100C5772D1EFF3300EE373E /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
 		119EB7CC2D044E63007833E2 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SDWebImage;

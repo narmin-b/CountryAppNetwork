@@ -8,34 +8,75 @@
 import UIKit
 
 class ReusableTextField: UITextField {
-    private var placeholderTitle: String?
+    private var placeholderTitle: String
+    private var placeholderFont: String
+    private var placeholderSize: CGFloat
+    private var placeholderColor: UIColor
     private var iconName: String?
     private var iconSetting: Int?
+    private var iconTintColor: UIColor?
+    private var cornerRad: CGFloat
+    private var bgColor: UIColor
+    private var borderColor: UIColor
+    private var borderWidth: CGFloat
     
-    init(placeholder: String!, placeholderSize: Int = 12, iconName: String?, iconSetting: Int = 10) {
+    init(placeholder: String!,
+         iconName: String?,
+         placeholderSize: CGFloat = 12,
+         placeholderFont: String = "Futura",
+         placeholderColor: UIColor = .gray,
+         iconSetting: Int = 10,
+         iconTintColor: UIColor = .black,
+         cornerRadius: CGFloat = 12,
+         backgroundColor: UIColor = .white,
+         borderColor: UIColor = .gray,
+         borderWidth: CGFloat = 1) {
         self.placeholderTitle = placeholder
+        self.placeholderFont = placeholderFont
+        self.placeholderSize = placeholderSize
+        self.placeholderColor = placeholderColor
         self.iconName = iconName
         self.iconSetting = iconSetting
+        self.iconTintColor = iconTintColor
+        self.cornerRad = cornerRadius
+        self.bgColor = backgroundColor
+        self.borderColor = borderColor
+        self.borderWidth = borderWidth
         super.init(frame: .zero)
-        configurePlaceholder(size: placeholderSize)
+        configurePlaceholder()
         configureIcon()
     }
     
-    init(placeholder: String!, placeholderSize: Int = 12) {
+    init(placeholder: String!,
+         placeholderSize: CGFloat = 12,
+         placeholderFont: String = "Futura",
+         placeholderColor: UIColor = .gray,
+         cornerRadius: CGFloat = 12,
+         backgroundColor: UIColor = .white,
+         borderColor: UIColor = .gray,
+         borderWidth: CGFloat = 1) {
         self.placeholderTitle = placeholder
+        self.placeholderFont = placeholderFont
+        self.placeholderSize = placeholderSize
+        self.placeholderColor = placeholderColor
+        self.cornerRad = cornerRadius
+        self.bgColor = backgroundColor
+        self.borderColor = borderColor
+        self.borderWidth = borderWidth
         super.init(frame: .zero)
-        configurePlaceholder(size: placeholderSize)
+        configurePlaceholder()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configurePlaceholder(size: Int) {
-        attributedPlaceholder = NSAttributedString(string: placeholderTitle ?? "", attributes: [.foregroundColor: UIColor.backgroundMain.withAlphaComponent(0.4), .font: UIFont(name: "Futura", size: CGFloat(size))!])
-        layer.borderColor = UIColor.backgroundMain.cgColor
-        layer.borderWidth = 2
-        layer.cornerRadius = 12
+    private func configurePlaceholder() {
+        attributedPlaceholder = NSAttributedString(string: placeholderTitle, attributes: [.foregroundColor: placeholderColor.withAlphaComponent(0.4), .font: UIFont(name: placeholderFont, size: placeholderSize)!])
+        layer.borderColor = borderColor.cgColor
+        layer.borderWidth = borderWidth
+        layer.cornerRadius = cornerRad
+        layer.backgroundColor = bgColor.cgColor
     }
     
     private func configureIcon() {
@@ -45,10 +86,11 @@ class ReusableTextField: UITextField {
     
     fileprivate func iconUISetting(_ iconName: String, x: Int = 10) -> UIView {
         let icon = UIImageView(image: UIImage(systemName: iconName))
-        icon.tintColor = .backgroundMain
+        icon.tintColor = iconTintColor
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: icon.frame.height))
         icon.frame = CGRect(x: CGFloat(integerLiteral: x), y: 0, width: icon.frame.width, height: icon.frame.height)
         paddingView.addSubview(icon)
         return paddingView
     }
 }
+

@@ -41,21 +41,21 @@ class MainViewController: BaseViewController {
     }()
     
     private lazy var searchTextfield: UITextField = {
-        let textfield = ReusableTextField(placeholder: "Search", iconName: "magnifyingglass", iconSetting: 10)
+        let textfield = ReusableTextField(placeholder: "Search", iconName: "magnifyingglass", iconSetting: 8)
         textfield.anchorSize(.init(width: 0, height: 48))
         textfield.delegate = self
         return textfield
     }()
     
     private lazy var sortByNameButton: UIButton = {
-        let button = ReusableButton(title: "Sort By Name", onAction: sortNameButtonClicked)
+        let button = ReusableButton(title: "Sort By Name" , onAction: sortNameButtonClicked, bgColor: .backgroundMain)
         button.anchorSize(.init(width: 0, height: 32))
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private lazy var sortByAreaButton: UIButton = {
-        let button = ReusableButton(title: "Sort By Area", onAction: sortAreaButtonClicked)
+        let button = ReusableButton(title: "Sort By Area", onAction: sortAreaButtonClicked, bgColor: .backgroundMain)
         button.anchorSize(.init(width: 0, height: 32))
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
